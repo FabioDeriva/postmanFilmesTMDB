@@ -1,0 +1,593 @@
+{
+  "info": {
+    "_postman_id": "8243bf3a-a2ae-490f-9b85-ea79a578e818",
+    "name": "filminhosDaSilva",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53692985",
+    "_collection_link": "https://go.postman.co/collection/53692985-8243bf3a-a2ae-490f-9b85-ea79a578e818?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GerarToken",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Token criado com sucesso\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.success).to.be.true;\r",
+              "    pm.environment.set(\"request_token\", data.request_token);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/authentication/token/new?api_key={{api_key}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "authentication",
+            "token",
+            "new"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ValidarSession",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Session criada\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    const data = pm.response.json();\r",
+              "    pm.environment.set(\"session_id\", data.session_id);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"request_token\": \"{{request_token}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.themoviedb.org/3/authentication/session/new?api_key={{api_key}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "authentication",
+            "session",
+            "new"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "VerificarAccountID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Account ID salvo\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "    const data = pm.response.json();\r",
+              "    pm.environment.set(\"account_id\", data.id);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/account?api_key={{api_key}}&session_id={{session_id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "account"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "session_id",
+              "value": "{{session_id}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testeFilmesFavoritos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Retornou favoritos\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.results).to.be.an(\"array\");\r",
+              "    pm.expect(data.results.length).to.be.greaterThan(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Lista de nomes dos favoritos\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const nomes = data.results.map(f => f.title);\r",
+              "    console.log(\"Filmes favoritos:\", nomes);\r",
+              "});\r",
+              "\r",
+              "// Visualização bonita na aba Visualize\r",
+              "let template = `<h3>Filmes Favoritos</h3><ul>`;\r",
+              "const data = pm.response.json();\r",
+              "data.results.forEach(f => {\r",
+              "    template += `<li>${f.title}</li>`;\r",
+              "});\r",
+              "template += `</ul>`;\r",
+              "pm.visualizer.set(template);\r",
+              "\r",
+              "//Verificar se Clube da luta ta nos filmes favoritos da minha conta\r",
+              "pm.test(\"Clube da Luta está nos favoritos\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const encontrado = data.results.some(f => f.id === 550);\r",
+              "    pm.expect(encontrado).to.be.true;\r",
+              "});\r",
+              "\r",
+              "//Verificar se Barbie ta nos filmes favoritos da minha conta\r",
+              "pm.test(\"Barbie está nos favoritos\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const encontrado = data.results.some(f => f.id === 5346698);\r",
+              "    pm.expect(encontrado).to.be.true;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Todos os favoritos tem nota acima de 8\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const fracos = data.results.filter(f => f.vote_average < 8);\r",
+              "\r",
+              "    const lista = fracos.map(f => `${f.title} (nota: ${f.vote_average})`).join(\", \");\r",
+              "    pm.expect(fracos.length, `Filmes com nota abaixo de 8: ${lista}`).to.eql(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Todos os favoritos são do mesmo gênero\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const primeiroGenero = data.results[0].genre_ids[0];\r",
+              "    data.results.forEach(f => {\r",
+              "        pm.expect(f.genre_ids, `${f.title} não tem o mesmo gênero`).to.include(primeiroGenero);\r",
+              "    });\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Nenhum favorito tem mais de 20 anos\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const anoLimite = new Date().getFullYear() - 20;\r",
+              "    const antigos = data.results.filter(f => {\r",
+              "        const ano = parseInt(f.release_date.substring(0, 4));\r",
+              "        return ano <= anoLimite;\r",
+              "    });\r",
+              "\r",
+              "    const lista = antigos.map(f => `${f.title} (${f.release_date.substring(0, 4)})`).join(\", \");\r",
+              "    pm.expect(antigos.length, `Filmes velhos encontrados: ${lista}`).to.eql(0);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/account/{{account_id}}/favorite/movies?api_key={{api_key}}&session_id={{session_id}}&language=pt-BR",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "account",
+            "{{account_id}}",
+            "favorite",
+            "movies"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "session_id",
+              "value": "{{session_id}}"
+            },
+            {
+              "key": "language",
+              "value": "pt-BR"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testeFilmeID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Encontrou o filme\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.results.length).to.be.greaterThan(0);\r",
+              "\r",
+              "    const filme = data.results[0];\r",
+              "    console.log(\"Filme:\", filme.title, \"| ID:\", filme.id);\r",
+              "    pm.environment.set(\"filme_id\", filme.id);\r",
+              "});\r",
+              "\r",
+              "// Visualização só com ID e nome\r",
+              "let template = `<h3>Resultado da Busca</h3>`;\r",
+              "const data = pm.response.json();\r",
+              "if (data.results.length > 0) {\r",
+              "    const filme = data.results[0];\r",
+              "    const dataFormatada = filme.release_date.split(\"-\").reverse().join(\"/\");\r",
+              "    template += `<p><strong>${filme.title}</strong> — ID: ${filme.id}</p>`;\r",
+              "    template += `<p><strong>Lançamento:</strong> ${dataFormatada}</p>`;\r",
+              "} else {\r",
+              "    template += `<p>Nenhum filme encontrado</p>`;\r",
+              "}\r",
+              "pm.visualizer.set(template);\r",
+              "\r",
+              "//TESTE DE RELEVANCIA\r",
+              "pm.test(\"Resultado é relevante pra busca\", function () {\r",
+              "    const busca = pm.environment.get(\"filme_nome\").toLowerCase();\r",
+              "    const filme = pm.response.json().results[0];\r",
+              "    const relevante = filme.title.toLowerCase().includes(busca) ||\r",
+              "                      filme.original_title.toLowerCase().includes(busca);\r",
+              "    pm.expect(relevante, \"Primeiro resultado não parece relevante\").to.be.true;\r",
+              "});\r",
+              "\r",
+              "//TESTES ESTRUTURA\r",
+              "pm.test(\"Results é um array com resultados\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.results).to.be.an(\"array\");\r",
+              "    pm.expect(data.results.length).to.be.greaterThan(0);\r",
+              "});\r",
+              "\r",
+              "// === TESTE NEGATIVO ===\r",
+              "pm.test(\"Nenhum resultado é adulto\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    data.results.forEach(f => {\r",
+              "        pm.expect(f.adult).to.be.false;\r",
+              "    });\r",
+              "});\r",
+              "\r",
+              "pm.test(\"É o melhor filme de todos os tempos\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const filme = data.results[0];\r",
+              "    const ehMelhor = filme.original_title === \"The Lord of the Rings: The Return of the King\" ||\r",
+              "                     filme.title === \"O Senhor dos Anéis: O Retorno do Rei\";\r",
+              "    pm.expect(ehMelhor, `\"${filme.title}\"? infelizmente não estamos falando de O Senhor dos Anéis: O Retorno do Rei`).to.be.true;\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/search/movie?api_key={{api_key}}&query={{filme_nome}}&language=pt-BR",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "search",
+            "movie"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "query",
+              "value": "{{filme_nome}}"
+            },
+            {
+              "key": "language",
+              "value": "pt-BR"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testeCaracteristicasFilme",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Verifica classificação indicativa\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const brasil = data.results.find(r => r.iso_3166_1 === \"BR\");\r",
+              "\r",
+              "    if (brasil) {\r",
+              "        const cert = brasil.release_dates[0].certification;\r",
+              "        console.log(\"Classificação no Brasil:\", cert);\r",
+              "        pm.expect(cert).to.not.be.empty;\r",
+              "    } else {\r",
+              "        console.log(\"Classificação BR não disponível\");\r",
+              "    }\r",
+              "});\r",
+              "\r",
+              "// Visualização\r",
+              "const data = pm.response.json();\r",
+              "const filmeNome = pm.environment.get(\"filme_nome\");\r",
+              "const brasil = data.results.find(r => r.iso_3166_1 === \"BR\");\r",
+              "\r",
+              "let template = `<h3>Classificação Indicativa — ${filmeNome}</h3>`;\r",
+              "\r",
+              "if (brasil) {\r",
+              "    const cert = brasil.release_dates[0].certification || \"N/A\";\r",
+              "    template += `<p><strong>Brasil:</strong> ${cert}</p>`;\r",
+              "} else {\r",
+              "    template += `<p>Classificação não disponível para o Brasil</p>`;\r",
+              "}\r",
+              "\r",
+              "pm.visualizer.set(template);\r",
+              "\r",
+              "// Testes\r",
+              "pm.test(\"Filme é classificação livre\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const brasil = data.results.find(r => r.iso_3166_1 === \"BR\");\r",
+              "\r",
+              "    if (brasil) {\r",
+              "        const cert = brasil.release_dates[0].certification;\r",
+              "        pm.expect(cert).to.eql(\"L\");\r",
+              "    }\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Filme foi lançado em 2026\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const brasil = data.results.find(r => r.iso_3166_1 === \"BR\");\r",
+              "\r",
+              "    if (brasil) {\r",
+              "        const ano = brasil.release_dates[0].release_date.substring(0, 4);\r",
+              "        pm.expect(ano).to.eql(\"2026\");\r",
+              "    }\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Filme foi lançado no Brasil antes dos EUA\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const brasil = data.results.find(r => r.iso_3166_1 === \"BR\");\r",
+              "    const eua = data.results.find(r => r.iso_3166_1 === \"US\");\r",
+              "    if (brasil && eua) {\r",
+              "        const dataBR = new Date(brasil.release_dates[0].release_date);\r",
+              "        const dataUS = new Date(eua.release_dates[0].release_date);\r",
+              "        pm.expect(dataBR.getTime(), \"Brasil não recebeu o filme primeiro\").to.be.below(dataUS.getTime());\r",
+              "    }\r",
+              "});\r",
+              "\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/movie/{{filme_id}}/release_dates?api_key={{api_key}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "movie",
+            "{{filme_id}}",
+            "release_dates"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testesElencoFilme",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Retornou elenco\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.cast).to.be.an(\"array\");\r",
+              "    pm.expect(data.cast.length).to.be.greaterThan(0);\r",
+              "});\r",
+              "\r",
+              "// Visualização dos 10 principais atores\r",
+              "const data = pm.response.json();\r",
+              "let template = `<h3>Elenco Principal</h3><table border=\"1\" cellpadding=\"8\" cellspacing=\"0\">`;\r",
+              "template += `<tr><th>Ator</th><th>Personagem</th></tr>`;\r",
+              "data.cast.slice(0, 10).forEach(a => {\r",
+              "    template += `<tr><td>${a.name}</td><td>${a.character}</td></tr>`;\r",
+              "});\r",
+              "template += `</table>`;\r",
+              "pm.visualizer.set(template);\r",
+              "\r",
+              "// === TESTES DO ELENCO ===\r",
+              "pm.test(\"Ator principal é Ryan Gosling\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const principal = data.cast[0];\r",
+              "    pm.expect(principal.name).to.eql(\"Ryan Gosling\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Ryan Gosling é literalmente eu\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const ryan = data.cast.find(a => a.name === \"Ryan Gosling\");\r",
+              "    pm.expect(ryan.name, \"Infelizmente você não é o Ryan Gosling\").to.eql(\"Fábio\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Filme tem menos de 5 atores\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    pm.expect(data.cast.length).to.be.lessThan(5);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Filme foi dirigido por um ator do elenco\", function () {\r",
+              "    const data = pm.response.json();\r",
+              "    const diretor = data.crew.find(c => c.job === \"Director\");\r",
+              "    const atores = data.cast.map(a => a.name);\r",
+              "    pm.expect(atores, \"Diretor não atuou no próprio filme\").to.include(diretor.name);\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/movie/{{filme_id}}/credits?api_key={{api_key}}&language=pt-BR",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "movie",
+            "{{filme_id}}",
+            "credits"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "language",
+              "value": "pt-BR"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
