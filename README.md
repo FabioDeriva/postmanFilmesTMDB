@@ -36,7 +36,7 @@ Projeto criado para praticar testes de API REST usando o Postman, explorando div
 
 ### Setup
 
-1. Importe o arquivo `filminhosDaSilva_postman_collection.json` no Postman
+1. Importe o arquivo `FilmesPostmanFabio.json` no Postman
 2. Crie uma **Environment** chamada `TMDB` com as seguintes variáveis:
 
 | Variável | Valor |
