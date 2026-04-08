@@ -1,47 +1,45 @@
 name: Testes API — Newman
 
 on:
-push:
-branches:
-- main
-- develop
-pull_request:
-branches:
-- main
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
 
 jobs:
-testes-api:
-name: API — Testes com Newman
-runs-on: ubuntu-latest
+  testes-api:
+    name: API — Testes com Newman
+    runs-on: ubuntu-latest
 
-```
-steps:
-  - name: Clonar repositório
-    uses: actions/checkout@v4
+    steps:
+      - name: Clonar repositório
+        uses: actions/checkout@v4
 
-  - name: Configurar Node.js
-    uses: actions/setup-node@v4
-    with:
-      node-version: '20'
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-  - name: Instalar Newman + Reporter HTML
-    run: |
-      npm install -g newman
-      npm install -g newman-reporter-html
+      - name: Instalar Newman + Reporter HTML
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-html
 
-  - name: (Debug) Listar arquivos do projeto
-    run: ls -R
+      - name: Listar arquivos (debug)
+        run: ls -R
 
-  - name: Rodar testes e gerar relatório
-    run: |
-      newman run FilmesPostmanFabio.json \
-        -e TMDB.postman_environment.json \
-        -r cli,html \
-        --reporter-html-export report.html
+      - name: Rodar testes e gerar relatório
+        run: |
+          newman run FilmesPostmanFabio.json \
+            -e TMDB.postman_environment.json \
+            -r cli,html \
+            --reporter-html-export report.html
 
-  - name: Upload do relatório
-    uses: actions/upload-artifact@v4
-    with:
-      name: relatorio-newman
-      path: report.html
-```
+      - name: Upload do relatório
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-newman
+          path: report.html
