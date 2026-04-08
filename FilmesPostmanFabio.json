@@ -1,11 +1,11 @@
 {
   "info": {
-    "_postman_id": "8243bf3a-a2ae-490f-9b85-ea79a578e818",
+    "_postman_id": "fbda5a57-e2e6-4b89-a59d-e774da0ea1fa",
     "name": "filminhosDaSilva",
     "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "53692985",
-    "_collection_link": "https://go.postman.co/collection/53692985-8243bf3a-a2ae-490f-9b85-ea79a578e818?source=collection_link"
+    "_exporter_id": "53803825",
+    "_collection_link": "https://go.postman.co/collection/53803825-fbda5a57-e2e6-4b89-a59d-e774da0ea1fa?source=collection_link"
   },
   "item": [
     {
@@ -583,6 +583,369 @@
             {
               "key": "language",
               "value": "pt-BR"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testesDeAcesso",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 401 - Não Autorizado\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "pm.test(\"Garante que a mensagem de erro não expõe dados do servidor\", function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.status_message).to.include(\"Invalid API key\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/movie/popular",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "movie",
+            "popular"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testePaginacao",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 400 - Pedido Inválido (Bad Request)\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test(\"Verifica se o erro informa o limite de páginas\", function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.errors[0]).to.include(\"page must be less than or equal to 500\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/movie/popular?api_key={{api_key}}&page=1000",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "movie",
+            "popular"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "page",
+              "value": "1000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testeIdGigante",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 404 - Recurso Não Encontrado\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "pm.test(\"Verifica se o retorno de erro padronizado (success: false)\", function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.success).to.be.false;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/movie/99999999999?api_key={{api_key}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "movie",
+            "99999999999"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testeDadoVazio",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 422 - Entidade Inprocessável\", function () {",
+              "    pm.response.to.have.status(422); ",
+              "});",
+              "pm.test(\"Deve alertar que a query é obrigatória\", function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.errors[0]).to.include(\"query must be provided\");",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/search/movie?api_key={{api_key}}&query=",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "search",
+            "movie"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "query",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testeInjectNoToken",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 401 - Não Autorizado a modificar dados\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "//mandando dados no corpo, sem login"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"value\": 8.5}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.themoviedb.org/3/movie/550/rating?api_key={{api_key}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "movie",
+            "550",
+            "rating"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testeSQLInjection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status não deve ser 500\", function () { //Significa que o servidor aceitou",
+              "    pm.expect(pm.response.code).to.be.below(500);",
+              "});",
+              "pm.test(\"Não deve retornar resultados para payloads maliciosos\", function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.total_results).to.eql(0);",
+              "});",
+              "",
+              "//nao me aguentei e tiver que fazer :p"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.themoviedb.org/3/search/movie?api_key={{api_key}}&query=' OR 1=1; DROP TABLE movies;--",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "search",
+            "movie"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "query",
+              "value": "' OR 1=1; DROP TABLE movies;--"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "testeIDOR",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 403 (Proibido) ou 404 (Não Encontrado)\", function () {",
+              "",
+              "    pm.expect(pm.response.code).to.be.oneOf([403, 404]); ",
+              "});",
+              "",
+              "pm.test(\"O servidor deve bloquear a operação (success: false)\", function () { //deve ser bloqueado by ser",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.success).to.be.false;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"media_id\": 550\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.themoviedb.org/3/list/1/add_item?api_key={{api_key}}&session_id={{session_id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "themoviedb",
+            "org"
+          ],
+          "path": [
+            "3",
+            "list",
+            "1",
+            "add_item"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{api_key}}"
+            },
+            {
+              "key": "session_id",
+              "value": "{{session_id}}"
             }
           ]
         }
