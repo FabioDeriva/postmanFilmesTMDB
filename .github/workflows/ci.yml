@@ -31,16 +31,18 @@ jobs:
       - name: Listar arquivos (debug)
         run: ls -R
 
-      - name: Rodar testes e gerar relatório
+      - name: Rodar testes (mesmo com falha)
         run: |
           newman run FilmesPostmanFabio.json \
             -e TMDB.postman_environment.json \
             --env-var api_key=${{ secrets.TMDB_API_KEY }} \
             -r cli,html \
             --reporter-html-export report.html
+        continue-on-error: true
 
-      - name: Upload do relatório
+      - name: Upload do relatório (sempre)
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: relatorio-newman
           path: report.html
