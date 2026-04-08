@@ -4,9 +4,11 @@ Collection de testes automatizados no Postman utilizando a API do [The Movie Dat
 
 ## Sobre o Projeto
 
-Projeto criado para praticar testes de API REST usando o Postman, explorando diversos endpoints do TMDB como busca de filmes, favoritos, elenco e classificação indicativa.
+Projeto criado para praticar testes de API REST usando o Postman, explorando diversos endpoints do TMDB como autenticação, busca de filmes, favoritos, classificação indicativa, elenco, segurança e validação de limites.
 
-## Requests da Collection
+## Estrutura da Collection
+
+### Requests Principais
 
 | # | Request | Método | Descrição |
 |---|---------|--------|-----------|
@@ -18,13 +20,47 @@ Projeto criado para praticar testes de API REST usando o Postman, explorando div
 | 6 | testeCaracteristicasFilme | `GET` | Verifica classificação indicativa e datas de lançamento |
 | 7 | testesElencoFilme | `GET` | Testa elenco, diretor e equipe técnica |
 
+### Testes de Segurança e Acesso
+
+| # | Request | Método | Descrição |
+|---|---------|--------|-----------|
+| 8 | testesDeAcesso | `GET` | Acesso sem API Key (espera 401) |
+| 9 | testeInjectNoToken | `POST` | Envio de dados sem sessão válida |
+| 10 | testeSQLInjection | `GET` | Injeção SQL no campo de busca |
+| 11 | testeIDOR | `GET` | Tentativa de adicionar item em lista alheia |
+
+### Testes de Limites
+
+| # | Request | Método | Descrição |
+|---|---------|--------|-----------|
+| 12 | testePaginacao | `GET` | Paginação acima do limite (page=1000) |
+| 13 | testeIdGigante | `GET` | ID inexistente (99999999999) |
+| 14 | testeDadoVazio | `GET` | Busca com query vazia |
+
+### Testes Inválidos (Pasta)
+
+| # | Request | Método | Descrição |
+|---|---------|--------|-----------|
+| 15 | testeDeleteTrendingContent | `DELETE` | DELETE em endpoint somente-leitura |
+| 16 | testeDeleteVideos | `DELETE` | DELETE em vídeos de TV |
+| 17 | testeDeleteDetalhes | `DELETE` | DELETE em detalhes de TV |
+| 18 | testeDeletarFotoPerfil | `DELETE` | DELETE em foto de perfil |
+| 19 | testeDeletarUsuário | `DELETE` | DELETE em usuário |
+| 20 | testeDeletarAvaliacaoAleatoria | `DELETE` | DELETE em avaliação inexistente |
+| 21 | testePostTrending | `POST` | POST em trending |
+| 22 | testePostVideo | `POST` | POST em vídeos de TV |
+| 23 | testePostUsuario | `POST` | POST em usuário |
+| 24 | testePostFotoPerfil | `POST` | POST em foto de perfil |
+| 25 | testePostAvaliacaoAleatoria | `POST` | POST em avaliação aleatória |
+
 ## Tipos de Testes
 
-- **Testes de status e estrutura** — Valida status code, formato JSON e campos obrigatórios
-- **Testes de validação** — Verifica notas, datas, classificação indicativa e relevância de busca
-- **Testes negativos** — Valida cenários que devem falhar (conteúdo adulto, dados inválidos)
-- **Testes criativos** — Testes com mensagens personalizadas e cenários divertidos
-- **Visualizações** — Respostas formatadas na aba Visualize do Postman
+- **Funcional** — Valida o comportamento esperado dos endpoints
+- **Estrutural** — Verifica a estrutura JSON das respostas (campos, tipos, arrays)
+- **Negativo** — Testa cenários de erro: dados ausentes, IDs inválidos, métodos não permitidos
+- **Segurança** — SQL Injection, IDOR, acesso sem autenticação, injeção de dados
+- **Validação** — Confere regras de negócio: notas, datas, classificações
+- **Exploratório** — Cenários com valores inesperados para verificar robustez da API
 
 ## Como Usar
 
@@ -37,18 +73,20 @@ Projeto criado para praticar testes de API REST usando o Postman, explorando div
 ### Setup
 
 1. Importe o arquivo `FilmesPostmanFabio.json` no Postman
-2. Crie uma **Environment** chamada `TMDB` com as seguintes variáveis:
+2. Importe o arquivo `TMDB_postman_environment.json` como Environment
+3. Na environment `TMDB`, preencha o valor de `api_key` com sua chave
+4. Selecione a environment `TMDB` no dropdown do Postman
 
-| Variável | Valor |
-|----------|-------|
-| `api_key` | Sua API Key do TMDB |
-| `request_token` | *(preenchido automaticamente)* |
-| `session_id` | *(preenchido automaticamente)* |
-| `account_id` | *(preenchido automaticamente)* |
-| `filme_nome` | Nome do filme que deseja buscar |
-| `filme_id` | *(preenchido automaticamente)* |
+### Variáveis de Ambiente
 
-3. Selecione a environment `TMDB` no dropdown do Postman
+| Variável | Valor | Preenchimento |
+|----------|-------|---------------|
+| `api_key` | Sua API Key do TMDB | Manual |
+| `request_token` | Token temporário | Automático |
+| `session_id` | ID de sessão | Automático |
+| `account_id` | ID da conta | Automático |
+| `filme_nome` | Nome do filme para busca | Manual |
+| `filme_id` | ID do filme retornado | Automático |
 
 ### Fluxo de Autenticação
 
@@ -65,13 +103,20 @@ Projeto criado para praticar testes de API REST usando o Postman, explorando div
 - Rode cada request individualmente e confira os resultados na aba **Test Results**
 - Use o **Console** (`Ctrl + Alt + C`) para ver logs detalhados
 - Clique na aba **Visualize** para ver as respostas formatadas
-- Use o **Collection Runner** para rodar todos os testes de uma vez
+- Use o **Collection Runner** para rodar múltiplos testes de uma vez
 
 ## Tecnologias
 
-- [Postman](https://www.postman.com/)
+- [Postman](https://www.postman.com/) v12.5.3
 - [TMDB API v3](https://developer.themoviedb.org/docs)
+- Git + GitHub
 
-## Autor
+## Uso de IA
 
-Fábio
+Este projeto contou com o auxílio do modelo **Claude Opus 4.6** (Anthropic) para geração de scripts de teste, sugestão de cenários, estruturação do plano de testes e explicação de código. Todos os testes foram revisados, adaptados e validados manualmente pelos autores.
+
+## Autores
+
+- Fabio Miguel
+- Henrique Campello
+- Igor Araújo
