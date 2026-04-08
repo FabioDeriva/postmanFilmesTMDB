@@ -1,13 +1,763 @@
 {
   "info": {
-    "_postman_id": "fbda5a57-e2e6-4b89-a59d-e774da0ea1fa",
+    "_postman_id": "8f1a771b-20aa-4b20-93cf-16028039e711",
     "name": "filminhosDaSilva",
     "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "53803825",
-    "_collection_link": "https://go.postman.co/collection/53803825-fbda5a57-e2e6-4b89-a59d-e774da0ea1fa?source=collection_link"
+    "_exporter_id": "53829984",
+    "_collection_link": "https://go.postman.co/collection/53829984-8f1a771b-20aa-4b20-93cf-16028039e711?source=collection_link"
   },
   "item": [
+    {
+      "name": "Testes Invalidos",
+      "item": [
+        {
+          "name": "testeDeleteTrendingContent",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-038 tentativa de DELETE em endpoint não permitido\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-039 Sucesso continua falso ao tentar deletar\", function () {\r",
+                  "    pm.expect(pm.response.text()).to.include(\"false\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-040 Deve retornar success = false\", function () {\r",
+                  "    const data = pm.response.json();\r",
+                  "    pm.expect(data.success).to.be.false;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-041 Deve retornar status_code 34\", function () {\r",
+                  "    const data = pm.response.json();\r",
+                  "    pm.expect(data.status_code).to.eql(34);\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://api.themoviedb.org/3/trending/all/day",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "trending",
+                "all",
+                "day"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testeDeleteVideos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-042 Retorna 404 ao tentar deletar aba Videos\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "https://api.themoviedb.org/3/tv/5/videos",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "tv",
+                "5",
+                "videos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testeDeleteDetalhes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-043 Retorna 401 ao tentar deletar aba Videos\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://api.themoviedb.org/3/tv/55555",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "tv",
+                "55555"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testeDeletarFotoPerfil",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-044 Retorna 404 ao tentar deletar foto perfil do usuario 5\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://api.themoviedb.org/3/person/5/images",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "person",
+                "5",
+                "images"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testeDeletarUsuário",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-045 Retorna 404 ao tentar deletar o usuario 5\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://api.themoviedb.org/3/person/5",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "person",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testeDeletarAvailiacaoAleatoria",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-046 Retorna 404 ao tentar deletar o usuario 5\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://api.themoviedb.org/3/movie/99999999/rating",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "movie",
+                "99999999",
+                "rating"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testePostTrending",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-047 Teste POST no trending\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"teste\": \"isso deve falhar\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://api.themoviedb.org/3/trending/all/day",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "trending",
+                "all",
+                "day"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testePostVideo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-048 Teste POST no Video\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"teste\": \"isso deve falhar\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://api.themoviedb.org/3/tv/5/videos",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "tv",
+                "5",
+                "videos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testePostUsuario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-049 Teste POST no Usuario\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"teste\": \"isso deve falhar\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://api.themoviedb.org/3/person/5",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "person",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testePostFotoPerfil",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-050 Teste POST no FotoPerfil\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"teste\": \"isso deve falhar\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://api.themoviedb.org/3/person/5",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "person",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "testePostAvaliacaoAleatoria",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-051 Teste POST no AvaliacaoAleatoria\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "    pm.expect(jsonData).to.have.property(\"success\", false);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_code\", 34);\r",
+                  "    pm.expect(jsonData).to.have.property(\"status_message\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MzY1ZTliOTA2MjMzMmEwNTZjMTY4MTYzMWE5M2ZjNyIsIm5iZiI6MTc3NTU4NDMyMy41ODMwMDAyLCJzdWIiOiI2OWQ1NDQ0MzEyZGNjNzM0MjJmOGE4NzQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.gGRV90rvxSGu6fXZc4eaZc0O6SuTcTnp833udYZtpMo",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"teste\": \"isso deve falhar\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://api.themoviedb.org/3/person/5",
+              "protocol": "https",
+              "host": [
+                "api",
+                "themoviedb",
+                "org"
+              ],
+              "path": [
+                "3",
+                "person",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
     {
       "name": "GerarToken",
       "event": [
@@ -26,7 +776,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Token criado com sucesso\", function () {\r",
+              "pm.test(\"TC-001 Token criado com sucesso\", function () {\r",
               "    pm.response.to.have.status(200);\r",
               "    const data = pm.response.json();\r",
               "    pm.expect(data.success).to.be.true;\r",
@@ -73,7 +823,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Session criada\", function () {\r",
+              "pm.test(\"TC-002 Session criada\", function () {\r",
               "    pm.response.to.have.status(200);\r",
               "    const data = pm.response.json();\r",
               "    pm.environment.set(\"session_id\", data.session_id);\r",
@@ -82,6 +832,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -138,7 +895,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Account ID salvo\", function () {\r",
+              "pm.test(\"TC-003 Account ID salvo\", function () {\r",
               "    pm.response.to.have.status(200);\r",
               "    const data = pm.response.json();\r",
               "    pm.environment.set(\"account_id\", data.id);\r",
@@ -147,6 +904,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -186,17 +950,17 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Status 200\", function () {\r",
+              "pm.test(\"TC-004 Status 200\", function () {\r",
               "    pm.response.to.have.status(200);\r",
               "});\r",
               "\r",
-              "pm.test(\"Retornou favoritos\", function () {\r",
+              "pm.test(\"TC-005 Retornou favoritos\", function () {\r",
               "    const data = pm.response.json();\r",
               "    pm.expect(data.results).to.be.an(\"array\");\r",
               "    pm.expect(data.results.length).to.be.greaterThan(0);\r",
               "});\r",
               "\r",
-              "pm.test(\"Lista de nomes dos favoritos\", function () {\r",
+              "pm.test(\"TC-006 Lista de nomes dos favoritos\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const nomes = data.results.map(f => f.title);\r",
               "    console.log(\"Filmes favoritos:\", nomes);\r",
@@ -212,20 +976,20 @@
               "pm.visualizer.set(template);\r",
               "\r",
               "//Verificar se Clube da luta ta nos filmes favoritos da minha conta\r",
-              "pm.test(\"Clube da Luta está nos favoritos\", function () {\r",
+              "pm.test(\"TC-007 Clube da Luta está nos favoritos\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const encontrado = data.results.some(f => f.id === 550);\r",
               "    pm.expect(encontrado).to.be.true;\r",
               "});\r",
               "\r",
               "//Verificar se Barbie ta nos filmes favoritos da minha conta\r",
-              "pm.test(\"Barbie está nos favoritos\", function () {\r",
+              "pm.test(\"TC-008 Barbie está nos favoritos\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const encontrado = data.results.some(f => f.id === 5346698);\r",
               "    pm.expect(encontrado).to.be.true;\r",
               "});\r",
               "\r",
-              "pm.test(\"Todos os favoritos tem nota acima de 8\", function () {\r",
+              "pm.test(\"TC-009 Todos os favoritos tem nota acima de 8\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const fracos = data.results.filter(f => f.vote_average < 8);\r",
               "\r",
@@ -233,7 +997,7 @@
               "    pm.expect(fracos.length, `Filmes com nota abaixo de 8: ${lista}`).to.eql(0);\r",
               "});\r",
               "\r",
-              "pm.test(\"Todos os favoritos são do mesmo gênero\", function () {\r",
+              "pm.test(\"TC-010 Todos os favoritos são do mesmo gênero\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const primeiroGenero = data.results[0].genre_ids[0];\r",
               "    data.results.forEach(f => {\r",
@@ -241,7 +1005,7 @@
               "    });\r",
               "});\r",
               "\r",
-              "pm.test(\"Nenhum favorito tem mais de 20 anos\", function () {\r",
+              "pm.test(\"TC-011 Nenhum favorito tem mais de 20 anos\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const anoLimite = new Date().getFullYear() - 20;\r",
               "    const antigos = data.results.filter(f => {\r",
@@ -257,6 +1021,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -303,7 +1074,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Encontrou o filme\", function () {\r",
+              "pm.test(\"TC-012 Encontrou o filme\", function () {\r",
               "    const data = pm.response.json();\r",
               "    pm.expect(data.results.length).to.be.greaterThan(0);\r",
               "\r",
@@ -326,7 +1097,7 @@
               "pm.visualizer.set(template);\r",
               "\r",
               "//TESTE DE RELEVANCIA\r",
-              "pm.test(\"Resultado é relevante pra busca\", function () {\r",
+              "pm.test(\"TC-013 Resultado é relevante pra busca\", function () {\r",
               "    const busca = pm.environment.get(\"filme_nome\").toLowerCase();\r",
               "    const filme = pm.response.json().results[0];\r",
               "    const relevante = filme.title.toLowerCase().includes(busca) ||\r",
@@ -335,21 +1106,21 @@
               "});\r",
               "\r",
               "//TESTES ESTRUTURA\r",
-              "pm.test(\"Results é um array com resultados\", function () {\r",
+              "pm.test(\"TC-014 Results é um array com resultados\", function () {\r",
               "    const data = pm.response.json();\r",
               "    pm.expect(data.results).to.be.an(\"array\");\r",
               "    pm.expect(data.results.length).to.be.greaterThan(0);\r",
               "});\r",
               "\r",
               "// === TESTE NEGATIVO ===\r",
-              "pm.test(\"Nenhum resultado é adulto\", function () {\r",
+              "pm.test(\"TC-015 Nenhum resultado é adulto\", function () {\r",
               "    const data = pm.response.json();\r",
               "    data.results.forEach(f => {\r",
               "        pm.expect(f.adult).to.be.false;\r",
               "    });\r",
               "});\r",
               "\r",
-              "pm.test(\"É o melhor filme de todos os tempos\", function () {\r",
+              "pm.test(\"TC-016 É o melhor filme de todos os tempos\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const filme = data.results[0];\r",
               "    const ehMelhor = filme.original_title === \"The Lord of the Rings: The Return of the King\" ||\r",
@@ -361,6 +1132,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -405,7 +1183,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Verifica classificação indicativa\", function () {\r",
+              "pm.test(\"TC-017 Verifica classificação indicativa\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const brasil = data.results.find(r => r.iso_3166_1 === \"BR\");\r",
               "\r",
@@ -445,7 +1223,7 @@
               "    }\r",
               "});\r",
               "\r",
-              "pm.test(\"Filme foi lançado em 2026\", function () {\r",
+              "pm.test(\"TC-018 Filme foi lançado em 2026\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const brasil = data.results.find(r => r.iso_3166_1 === \"BR\");\r",
               "\r",
@@ -455,7 +1233,7 @@
               "    }\r",
               "});\r",
               "\r",
-              "pm.test(\"Filme foi lançado no Brasil antes dos EUA\", function () {\r",
+              "pm.test(\"TC-019 Filme foi lançado no Brasil antes dos EUA\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const brasil = data.results.find(r => r.iso_3166_1 === \"BR\");\r",
               "    const eua = data.results.find(r => r.iso_3166_1 === \"US\");\r",
@@ -472,6 +1250,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -509,7 +1294,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Retornou elenco\", function () {\r",
+              "pm.test(\"TC-020 Retornou elenco\", function () {\r",
               "    const data = pm.response.json();\r",
               "    pm.expect(data.cast).to.be.an(\"array\");\r",
               "    pm.expect(data.cast.length).to.be.greaterThan(0);\r",
@@ -526,24 +1311,24 @@
               "pm.visualizer.set(template);\r",
               "\r",
               "// === TESTES DO ELENCO ===\r",
-              "pm.test(\"Ator principal é Ryan Gosling\", function () {\r",
+              "pm.test(\"TC-021 Ator principal é Ryan Gosling\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const principal = data.cast[0];\r",
               "    pm.expect(principal.name).to.eql(\"Ryan Gosling\");\r",
               "});\r",
               "\r",
-              "pm.test(\"Ryan Gosling é literalmente eu\", function () {\r",
+              "pm.test(\"TC-022 Ryan Gosling é literalmente eu\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const ryan = data.cast.find(a => a.name === \"Ryan Gosling\");\r",
               "    pm.expect(ryan.name, \"Infelizmente você não é o Ryan Gosling\").to.eql(\"Fábio\");\r",
               "});\r",
               "\r",
-              "pm.test(\"Filme tem menos de 5 atores\", function () {\r",
+              "pm.test(\"TC-023 Filme tem menos de 5 atores\", function () {\r",
               "    const data = pm.response.json();\r",
               "    pm.expect(data.cast.length).to.be.lessThan(5);\r",
               "});\r",
               "\r",
-              "pm.test(\"Filme foi dirigido por um ator do elenco\", function () {\r",
+              "pm.test(\"TC-024 Filme foi dirigido por um ator do elenco\", function () {\r",
               "    const data = pm.response.json();\r",
               "    const diretor = data.crew.find(c => c.job === \"Director\");\r",
               "    const atores = data.cast.map(a => a.name);\r",
@@ -555,6 +1340,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -596,10 +1388,10 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Status 401 - Não Autorizado\", function () {",
+              "pm.test(\"TC-025 Status 401 - Não Autorizado\", function () {",
               "    pm.response.to.have.status(401);",
               "});",
-              "pm.test(\"Garante que a mensagem de erro não expõe dados do servidor\", function () {",
+              "pm.test(\"TC-026 Garante que a mensagem de erro não expõe dados do servidor\", function () {",
               "    const data = pm.response.json();",
               "    pm.expect(data.status_message).to.include(\"Invalid API key\");",
               "});"
@@ -607,6 +1399,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -637,10 +1436,10 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Status 400 - Pedido Inválido (Bad Request)\", function () {",
+              "pm.test(\"TC-027 Status 400 - Pedido Inválido (Bad Request)\", function () {",
               "    pm.response.to.have.status(400);",
               "});",
-              "pm.test(\"Verifica se o erro informa o limite de páginas\", function () {",
+              "pm.test(\"TC-028 Verifica se o erro informa o limite de páginas\", function () {",
               "    const data = pm.response.json();",
               "    pm.expect(data.errors[0]).to.include(\"page must be less than or equal to 500\");",
               "});"
@@ -648,6 +1447,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -688,10 +1494,10 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Status 404 - Recurso Não Encontrado\", function () {",
+              "pm.test(\"TC-029 Status 404 - Recurso Não Encontrado\", function () {",
               "    pm.response.to.have.status(404);",
               "});",
-              "pm.test(\"Verifica se o retorno de erro padronizado (success: false)\", function () {",
+              "pm.test(\"TC-030 Verifica se o retorno de erro padronizado (success: false)\", function () {",
               "    const data = pm.response.json();",
               "    pm.expect(data.success).to.be.false;",
               "});"
@@ -699,6 +1505,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -735,10 +1548,10 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Status 422 - Entidade Inprocessável\", function () {",
+              "pm.test(\"TC-031 Status 422 - Entidade Inprocessável\", function () {",
               "    pm.response.to.have.status(422); ",
               "});",
-              "pm.test(\"Deve alertar que a query é obrigatória\", function () {",
+              "pm.test(\"TC-032 Deve alertar que a query é obrigatória\", function () {",
               "    const data = pm.response.json();",
               "    pm.expect(data.errors[0]).to.include(\"query must be provided\");",
               "});"
@@ -746,6 +1559,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -786,7 +1606,7 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Status 401 - Não Autorizado a modificar dados\", function () {",
+              "pm.test(\"TC-033 Status 401 - Não Autorizado a modificar dados\", function () {",
               "    pm.response.to.have.status(401);",
               "});",
               "//mandando dados no corpo, sem login"
@@ -794,6 +1614,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -840,10 +1667,10 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Status não deve ser 500\", function () { //Significa que o servidor aceitou",
+              "pm.test(\"TC-034 Status não deve ser 500\", function () { //Significa que o servidor aceitou",
               "    pm.expect(pm.response.code).to.be.below(500);",
               "});",
-              "pm.test(\"Não deve retornar resultados para payloads maliciosos\", function () {",
+              "pm.test(\"TC-035 Não deve retornar resultados para payloads maliciosos\", function () {",
               "    const data = pm.response.json();",
               "    pm.expect(data.total_results).to.eql(0);",
               "});",
@@ -853,6 +1680,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
@@ -893,12 +1727,12 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"Status 403 (Proibido) ou 404 (Não Encontrado)\", function () {",
+              "pm.test(\"TC-036 Status 403 (Proibido) ou 404 (Não Encontrado)\", function () {",
               "",
               "    pm.expect(pm.response.code).to.be.oneOf([403, 404]); ",
               "});",
               "",
-              "pm.test(\"O servidor deve bloquear a operação (success: false)\", function () { //deve ser bloqueado by ser",
+              "pm.test(\"TC-037 O servidor deve bloquear a operação (success: false)\", function () { //deve ser bloqueado by ser",
               "    const data = pm.response.json();",
               "    pm.expect(data.success).to.be.false;",
               "});"
@@ -906,6 +1740,13 @@
             "type": "text/javascript",
             "packages": {},
             "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [],
+            "type": "text/javascript"
           }
         }
       ],
